@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Jura';
+    src: url('/static/fonts/Jura.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Jura', sans-serif;
+    background-color: aqua;
+}

@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Our Site</title>
+    <style>
+        @font-face {
+            font-family: 'Jura';
+            src: url('/static/fonts/Jura.ttf') format('truetype');
+        }
+
+        body,
+        h1,
+        p {
+            font-family: 'Jura', sans-serif;
+        }
+
+        .top-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 32px;
+            margin-top: 0px;
+            margin-left: 30px;
+            ;
+        }
+
+        .top-info img {
+            height: 105px;
+            /* Размер логотипа */
+        }
+
+        nav ul {
+            display: flex;
+            /* Делает список flex-контейнером */
+            justify-content: center;
+            /* Центрирует элементы списка */
+            list-style-type: none;
+            /* Убирает стандартные маркеры списка */
+            padding: 0 20%;
+            /* Устанавливает отступы от краев, создавая пространство с обеих сторон */
+            margin: 0;
+            /* Убирает внешние отступы */
+            text-align: center;
+            /* Выравнивает текст элементов списка по центру */
+        }
+
+        nav ul li {
+            margin: 0 65px;
+            /* Увеличиваем отступ между элементами для создания большего пространства */
+            text-align: center;
+            /* Выравнивает текст внутри каждого элемента списка по центру */
+        }
+
+        nav a {
+            text-decoration: none;
+            /* Убирает подчеркивание у ссылок */
+            color: black;
+            /* Устанавливает цвет текста */
+            font-size: 27px;
+            /* Устанавливает размер шрифта */
+            display: block;
+            /* Растягивает ссылки на весь доступный элемент li */
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background-color: #4F4F4F;
+            ;
+            /* Цвет линии */
+            opacity: 35%;
+        }
+
+        .map-and-stations {
+            display: flex;
+            justify-content: flex-start;
+            /* Выравнивание содержимого в начале контейнера */
+            align-items: center;
+            /* Центрирование элементов по вертикали */
+            padding: 20px;
+            /* Отступы вокруг контейнера */
+            margin: 0 auto;
+            /* Автоматический расчет маржи по бокам для центрирования */
+            max-width: 1200px;
+            /* Максимальная ширина контейнера, можно адаптировать под ваш дизайн */
+        }
+
+
+        main img {
+            margin-top: 30px;
+            margin-right: 30px;
+            /* Добавляется отступ справа для отделения карты от списка станций */
+            width: 519px;
+            /* Указывается фиксированная ширина */
+            height: 321px;
+            /* Указывается фиксированная высота */
+        }
+
+        .stations {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 519px;
+            /* ширина, аналогичная карте */
+            height: 321px;
+            /* высота, аналогичная карте */
+            overflow-y: auto;
+            /* добавляем прокрутку, если содержимое превышает высоту */
+            padding: 20px;
+        }
+
+        .stations ul {
+            display: grid;
+            /* Использование grid для организации списка */
+            grid-template-columns: repeat(4, 1fr);
+            /* Создает 4 столбца с равной шириной */
+            grid-gap: 10px;
+            /* Устанавливает расстояние между элементами сетки */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        .stations li {
+            /* background: #f4f4f4; */
+            /* Добавляет фоновый цвет для наглядности */
+            padding: 10px;
+            /* Отступы внутри каждого элемента списка */
+            text-align: center;
+            /* Центрирует текст внутри элементов списка */
+        }
+
+        .stations a {
+            text-decoration: underline;
+            color: black;
+            display: block;
+            /* Растягивает ссылку на весь доступный элемент li */
+            font-size: 27px;
+        }
+
+
+        .subtitle {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: normal;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="top-info">
+            <p>Федеральный исследовательский центр <br>“Единая геофизическая служба Российской академии наук” <br>Сектор
+                геодинамического мониторинга.</p><img src="{% static 'images/logo.svg' %}" alt="GS RAS Logo">
+        </div>
+        <hr>
+        <nav>
+            <ul>
+                <li><a href="#">карты</a></li>
+                <li><a href="#">станции</a></li>
+                <li><a href="#">архив</a></li>
+                <li><a href="#">информация</a></li>
+            </ul>
+        </nav>
+        <hr>
+
+        <h2 class="subtitle">Карта сети станций ГС РАН</h2>
+    </header>
+    <div class="map-and-stations">
+        <img src="{% static 'images/map.png' %}" alt="Map of Stations">
+        <div class="stations">
+            <ul>
+                <li><a href="#">artu</a></li>
+                <li><a href="#">petp</a></li>
+                <li><a href="#">yakt</a></li>
+                <li><a href="#">bili</a></li>
+                <li><a href="#">petr</a></li>
+                <li><a href="#">yakz</a></li>
+                <li><a href="#">irkm</a></li>
+                <li><a href="#">pets</a></li>
+                <li><a href="#">yssk</a></li>
+                <li><a href="#">magl</a></li>
+                <li><a href="#">tixg</a></li>
+                <li><a href="#">mobj</a></li>
+                <li><a href="#">tixi</a></li>
+                <li><a href="#">mobn</a></li>
+                <li><a href="#">tixj</a></li>
+                <li><a href="#">nril</a></li>
+                <li><a href="#">yaka</a></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>
