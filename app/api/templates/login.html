@@ -2,46 +2,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <style>
-        @font-face {
-            font-family: 'Jura';
-            src: url('/static/fonts/Jura.ttf') format('truetype');
-        }
-    
-        body, button {
-            font-family: 'Jura', sans-serif;
-        }
-    
-        button {
-            background-color: #4CAF50; /* Зеленый фон */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-    
-        button:hover {
-            background-color: #45a049; /* Темнее зеленый при наведении */
-        }
-    </style>
-    
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-
 <body>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log in</button>
-    </form>
-</body>
+    {% include 'header.html' %}
 
+    <div class="form-container">
+        <h2 class="subtitle">Вход</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
 </html>
