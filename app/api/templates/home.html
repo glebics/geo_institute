@@ -188,7 +188,11 @@
         <div class="header-container">
             <h2 class="subtitle">Карта сети станций ГС РАН</h2>
             <div class="auth-links">
-                <a href="login">Вход</a>/<a href="signup">Регистрация</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Вход</a>/<a href="{% url 'signup' %}">Регистрация</a>
+                {% endif %}
             </div>
         </div>
 

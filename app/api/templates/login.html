@@ -2,11 +2,128 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <style>
+        /* Стилизация контейнера формы */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            /* Убедитесь, что padding включен в ширину */
+        }
+
+        /* Стилизация группы форм */
+        .form-group-elements {
+            display: flex;
+            justify-content: space-between;
+            /* Распределение элементов по краям */
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            /* Убедитесь, что padding включен в ширину */
+        }
+
+        .form-group {
+            margin-top: 50px;
+        }
+
+        /* Стилизация меток */
+        label {
+            white-space: nowrap;
+            /* Предотвращает перенос текста */
+            overflow: hidden;
+            /* Скрывает текст, выходящий за границы элемента */
+            text-overflow: ellipsis;
+            /* Показывает многоточие в случае переполнения */
+            font-size: 27px;
+            /* Размер шрифта меток */
+            width: 60%;
+            /* Фиксированная ширина для меток */
+            text-align: right;
+            /* Выравнивание текста по правому краю */
+            margin-right: 20px;
+            /* Отступ справа до поля ввода */
+        }
+
+        /* Стилизация полей ввода */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select {
+            flex: 0 0 270px;
+            /* Фиксированная ширина полей */
+            height: 40px;
+            /* Фиксированная высота */
+            padding: 0 10px;
+            /* Внутренние отступы */
+            border: 1px solid #000000;
+            /* Граница поля */
+            border-radius: 14px;
+            /* Скругление углов */
+            font-size: 27px;
+            /* Размер шрифта */
+            margin-top: 20px;
+            /* Вертикальный отступ от предыдущего элемента */
+        }
+
+        /* Стилизация кнопки */
+        button {
+            width: 50%;
+            /* Устанавливает ширину кнопки в 50% */
+            font-family: Jura;
+            height: 59px;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000000;
+            border-radius: 14px;
+            font-size: 27px;
+            text-transform: lowercase;
+            cursor: pointer;
+            margin: 40px auto;
+            /* Центрирование кнопки с отступами сверху */
+            display: block;
+            /* Устанавливает блочный уровень элемента для центрирования */
+        }
+
+        h2 {
+            font-size: 32px;
+            opacity: 69%;
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 640px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            label {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            select {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
     {% include 'header.html' %}
 
@@ -14,9 +131,17 @@
         <h2 class="subtitle">Вход</h2>
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
+            <div class="form-group">
+                {% for field in form %}
+                <div class="form-group-elements">
+                    <label for="{{ field.id_for_label }}">{{ field.label|cut:":" }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit">войти</button>
+            </div>
         </form>
     </div>
 </body>
+
 </html>

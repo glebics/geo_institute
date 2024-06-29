@@ -8,6 +8,11 @@
     <title>Регистрация</title>
     <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> Подключаем общий CSS -->
     <style>
+
+        h2 {
+            font-size: 32px;
+            opacity: 69%;
+        }
         /* Стилизация контейнера формы */
         .form-container {
             display: flex;
@@ -119,13 +124,26 @@
         <h2 class="form-title">Регистрация</h2>
         <form method="post" action="{% url 'signup' %}">
             {% csrf_token %}
+            {% if form.errors %}
+                <div class="form-errors">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
             {% for field in form %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ field.label|cut:":" }}</label>
                 {{ field }}
             </div>
             {% endfor %}
-
             <button type="submit">Зарегистрироваться</button>
         </form>
     </div>
