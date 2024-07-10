@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ["*"]
 AUTH_USER_MODEL = 'api.CustomUser'
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -89,6 +88,14 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
+    },
+    'secondary': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'practice',
+        'USER': 'postgres',
+        'PASSWORD': 'supersecretpassword',
+        'HOST': 'pgdb2',
+        'PORT': '5432',
     }
 }
 
@@ -122,7 +129,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 
 # Static files (CSS, JavaScript, Images)

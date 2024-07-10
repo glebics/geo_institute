@@ -1,9 +1,21 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from .forms import CustomUserCreationForm
+from django.http import JsonResponse
+from django.db import connections
 
+
+def get_data_from_secondary_db():
+    with connections['secondary'].cursor() as cursor:
+        cursor.execute("SELECT * FROM stations")
+        rows = cursor.fetchall()
+    return rows
+
+
+def test_view(request):
+    data = get_data_from_secondary_db()
+    return JsonResponse({'data': data})
 
 
 def signup_view(request):
