@@ -4,18 +4,59 @@ from django.shortcuts import redirect, render
 from .forms import CustomUserCreationForm
 from django.http import JsonResponse
 from django.db import connections
+from .serializers import StationSerializer
+from rest_framework import serializers
 
 
-def get_data_from_secondary_db():
+def get_data_from_secondary_db(table_name):
     with connections['secondary'].cursor() as cursor:
-        cursor.execute("SELECT * FROM stations")
+        cursor.execute(f"SELECT * FROM {table_name}")
         rows = cursor.fetchall()
-    return rows
+        column_names = [desc[0] for desc in cursor.description]
+        field_types = {name: serializers.CharField(
+            max_length=255) for name in column_names}
+        result = [dict(zip(column_names, row)) for row in rows]
+
+    return result, field_types
 
 
-def test_view(request):
-    data = get_data_from_secondary_db()
-    return JsonResponse({'data': data})
+def stations_json_view(request):
+    data, field_types = get_data_from_secondary_db("stations")
+    serializer = StationSerializer(data=data, fields=field_types, many=True)
+    serializer.is_valid()
+    serialized_data = serializer.data
+
+    return JsonResponse({'data': serialized_data})
+
+
+def station_coordinates_json_view(request):
+    data, field_types = get_data_from_secondary_db("station_coordinates")
+    serializer = StationSerializer(data=data, fields=field_types, many=True)
+    serializer.is_valid()
+    serialized_data = serializer.data
+
+    return JsonResponse({'data': serialized_data})
+
+
+def files_json_view(request):
+    data, field_types = get_data_from_secondary_db("files")
+    serializer = StationSerializer(data=data, fields=field_types, many=True)
+    serializer.is_valid()
+    serialized_data = serializer.data
+
+    return JsonResponse({'data': serialized_data})
+
+
+# def get_data_from_secondary_db():
+#     with connections['secondary'].cursor() as cursor:
+#         cursor.execute("SELECT * FROM stations")
+#         rows = cursor.fetchall()
+#     return rows
+
+
+# def test_view(request):
+#     data = get_data_from_secondary_db()
+#     return JsonResponse({'data': data})
 
 
 def signup_view(request):
