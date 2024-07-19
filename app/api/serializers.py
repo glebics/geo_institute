@@ -10,6 +10,26 @@ class StationSerializer(serializers.Serializer):
             for field_name, field_type in fields.items():
                 self.fields[field_name] = field_type
 
+
+class StationCoordinatesSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    staid = serializers.IntegerField()
+    staname = serializers.CharField(max_length=100)
+    stax = serializers.FloatField()
+    stay = serializers.FloatField()
+    staz = serializers.FloatField()
+    stasigx = serializers.FloatField()
+    stasigy = serializers.FloatField()
+    stasigz = serializers.FloatField()
+    stavx = serializers.FloatField()
+    stavy = serializers.FloatField()
+    stavz = serializers.FloatField()
+    stasigvx = serializers.FloatField()
+    stasigvy = serializers.FloatField()
+    stasigvz = serializers.FloatField()
+    epoch = serializers.CharField(max_length=100)
+
+
 # class StationSerializer(serializers.Serializer):
 #     staid = serializers.IntegerField()
 #     staname = serializers.CharField(max_length=4)

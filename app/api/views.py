@@ -26,7 +26,8 @@ def stations_json_view(request):
     serializer.is_valid()
     serialized_data = serializer.data
 
-    return JsonResponse({'data': serialized_data})
+    # return JsonResponse({'data': serialized_data})
+    return render(request, 'home.html', {'stations': serialized_data})
 
 
 def station_coordinates_json_view(request):

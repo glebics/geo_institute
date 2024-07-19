@@ -5,9 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome to Our Site</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
+    <link rel="stylesheet" href="{% static 'v9.2.4-package/dist/ol.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4.js"></script>
     <style>
         @font-face {
             font-family: 'Jura';
@@ -20,6 +19,13 @@
             font-family: 'Jura', sans-serif;
         }
 
+        .map {
+            /* width: 100%;
+            height: 400px; */
+            width: 519px;
+            height: 321px
+        }
+
         .top-info {
             display: flex;
             justify-content: space-between;
@@ -27,68 +33,47 @@
             font-size: 32px;
             margin-top: 0px;
             margin-left: 30px;
-            ;
         }
 
         .top-info img {
             height: 105px;
-            /* Размер логотипа */
         }
 
         nav ul {
             display: flex;
-            /* Делает список flex-контейнером */
             justify-content: center;
-            /* Центрирует элементы списка */
             list-style-type: none;
-            /* Убирает стандартные маркеры списка */
             padding: 0 20%;
-            /* Устанавливает отступы от краев, создавая пространство с обеих сторон */
             margin: 0;
-            /* Убирает внешние отступы */
             text-align: center;
-            /* Выравнивает текст элементов списка по центру */
         }
 
         nav ul li {
             margin: 0 65px;
-            /* Увеличиваем отступ между элементами для создания большего пространства */
             text-align: center;
-            /* Выравнивает текст внутри каждого элемента списка по центру */
         }
 
         nav a {
             text-decoration: none;
-            /* Убирает подчеркивание у ссылок */
             color: black;
-            /* Устанавливает цвет текста */
             font-size: 27px;
-            /* Устанавливает размер шрифта */
             display: block;
-            /* Растягивает ссылки на весь доступный элемент li */
         }
 
         hr {
             border: none;
             height: 2px;
             background-color: #4F4F4F;
-            ;
-            /* Цвет линии */
             opacity: 35%;
         }
 
         .map-and-stations {
             display: flex;
             justify-content: flex-start;
-            /* Выравнивание содержимого в начале контейнера */
             align-items: center;
-            /* Центрирование элементов по вертикали */
             padding: 20px;
-            /* Отступы вокруг контейнера */
             margin: 0 auto;
-            /* Автоматический расчет маржи по бокам для центрирования */
             max-width: 1200px;
-            /* Максимальная ширина контейнера, можно адаптировать под ваш дизайн */
         }
 
         .stations {
@@ -97,21 +82,15 @@
             justify-content: flex-start;
             align-items: flex-start;
             width: 519px;
-            /* ширина, аналогичная карте */
             height: 321px;
-            /* высота, аналогичная карте */
             overflow-y: auto;
-            /* добавляем прокрутку, если содержимое превышает высоту */
             padding: 20px;
         }
 
         .stations ul {
             display: grid;
-            /* Использование grid для организации списка */
             grid-template-columns: repeat(4, 1fr);
-            /* Создает 4 столбца с равной шириной */
             grid-gap: 10px;
-            /* Устанавливает расстояние между элементами сетки */
             list-style: none;
             padding: 0;
             margin: 0;
@@ -119,156 +98,128 @@
         }
 
         .stations li {
-            /* background: #f4f4f4; */
-            /* Добавляет фоновый цвет для наглядности */
             padding: 10px;
-            /* Отступы внутри каждого элемента списка */
             text-align: center;
-            /* Центрирует текст внутри элементов списка */
         }
 
         .stations a {
             text-decoration: underline;
             color: black;
             display: block;
-            /* Растягивает ссылку на весь доступный элемент li */
             font-size: 27px;
         }
-
 
         .header-container {
             display: flex;
             justify-content: center;
-            /* Центрируем контент контейнера */
             position: relative;
-            /* Делаем контейнер относительно позиционированным для абсолютного позиционирования дочерних элементов */
             padding: 20px;
             height: 50px;
-            /* Устанавливаем высоту контейнера, если нужно */
         }
 
         .subtitle {
             margin: 0;
-            /* Убираем стандартные отступы у заголовка */
             z-index: 1;
-            /* Убедимся, что заголовок не перекрывается ссылками */
             font-size: 32px;
         }
 
         .auth-links {
             position: absolute;
-            /* Абсолютное позиционирование внутри контейнера */
             right: 20px;
-            /* Смещаем ссылки к правому краю контейнера */
             top: 50%;
-            /* Выравнивание по вертикали */
             transform: translateY(-50%);
-            /* Центрирование по вертикали */
             z-index: 2;
-            /* Ссылки находятся поверх заголовка при перекрытии */
         }
 
         .auth-links a {
-            /* margin-left: 10px; */
             text-decoration: none;
-            /* Убираем подчеркивание */
             color: rgba(0, 0, 0, 0.69);
-            /* Делаем текст синим или выберите другой цвет */
             font-size: 27px;
         }
     </style>
-
 </head>
 
 <body>
     <header>
-        
         {% include 'header.html' %}
-
         <div class="header-container">
             <h2 class="subtitle">Карта сети станций ГС РАН</h2>
             <div class="auth-links">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}">Выйти</a>
+                <a href="{% url 'logout' %}">Выйти</a>
                 {% else %}
-                    <a href="{% url 'login' %}">Вход</a>/<a href="{% url 'signup' %}">Регистрация</a>
+                <a href="{% url 'login' %}">Вход</a>/<a href="{% url 'signup' %}">Регистрация</a>
                 {% endif %}
             </div>
         </div>
-
     </header>
     <div class="map-and-stations">
-        <!-- <img src="{% static 'images/map.png' %}" alt="Map of Stations"> -->
-        <div id="map" style="width: 519px; height: 321px;"></div>
+        <div id="map" class="map"></div>
         <div class="stations">
             <ul>
-                <li><a href="{% url 'stations' %}">artu</a></li>
-                <li><a href="{% url 'station_coordinates' %}">petp</a></li>
-                <li><a href="{% url 'files' %}">yakt</a></li>
-                <li><a href="#">bili</a></li>
-                <li><a href="#">petr</a></li>
-                <li><a href="#">yakz</a></li>
-                <li><a href="#">irkm</a></li>
-                <li><a href="#">pets</a></li>
-                <li><a href="#">yssk</a></li>
-                <li><a href="#">magl</a></li>
-                <li><a href="#">tixg</a></li>
-                <li><a href="#">mobj</a></li>
-                <li><a href="#">tixi</a></li>
-                <li><a href="#">mobn</a></li>
-                <li><a href="#">tixj</a></li>
-                <li><a href="#">nril</a></li>
-                <li><a href="#">yaka</a></li>
+                {% for station in stations %}
+                <li><a href="#">{{ station.staname }}</a></li>
+                {% endfor %}
             </ul>
         </div>
     </div>
 
+    <script src="{% static 'v9.2.4-package/dist/ol.js' %}"></script>
     <script>
-        var map = L.map('map').setView([60.0000, 105.0000], 4); // Изменено для демонстрации
+        document.addEventListener("DOMContentLoaded", function () {
+            // Установить параметры проекции
+            proj4.defs("EPSG:3857", "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
+            proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+            fetch("{% url 'station_coordinates_json' %}")
+                .then(response => response.json())
+                .then(data => {
+                    var stations = data.data.map(station => ({
+                        name: station.staname,
+                        coords: proj4('EPSG:3857', 'EPSG:4326', [parseFloat(station.stax) + 11000000, parseFloat(station.stay) + 7000000])
+                    }));
+                    console.log(stations);
 
-        var stations = [
-            { name: "artu", coords: [59.9343, 30.3351] },
-            { name: "petp", coords: [55.7558, 37.6173] },
-            { name: "yakt", coords: [62.0355, 129.6755] },
-            { name: "bili", coords: [56.4977, 84.9744] },
-            { name: "petr", coords: [57.0000, 40.9738] },
-            { name: "yakz", coords: [56.8389, 60.6057] },
-            { name: "irkm", coords: [52.2864, 104.3050] },
-            { name: "pets", coords: [67.6380, 53.0065] },
-            { name: "yssk", coords: [56.8526, 53.2045] },
-            { name: "magl", coords: [59.5612, 150.8301] },
-            { name: "tixg", coords: [71.9801, 102.4743] },
-            { name: "mobj", coords: [68.9696, 33.0745] },
-            { name: "tixi", coords: [71.6263, 128.8349] },
-            { name: "mobn", coords: [55.9158, 94.8977] },
-            { name: "tixj", coords: [71.6872, 128.8694] },
-            { name: "nril", coords: [60.9344, 76.5531] },
-            { name: "yaka", coords: [62.0339, 129.7331] }
-        ];
+                    var map = new ol.Map({
+                        target: 'map',
+                        layers: [
+                            new ol.layer.Tile({
+                                source: new ol.source.OSM(),
+                                attributions: []  // Убираем атрибуцию OpenStreetMap
+                            })
+                        ],
+                        view: new ol.View({
+                            center: ol.proj.fromLonLat([105.0000, 60.0000]),
+                            zoom: 4
+                        })
+                    });
 
-        var markers = L.featureGroup(); // Группа для всех маркеров, чтобы управлять видимой областью
+                    var vectorSource = new ol.source.Vector({
+                        features: stations.map(station => new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.fromLonLat(station.coords)),
+                            name: station.name
+                        }))
+                    });
 
-        stations.forEach(function (station) {
-            var marker = L.marker(station.coords).bindPopup("<b>" + station.name + "</b>");
-            markers.addLayer(marker); // Добавление каждого маркера в группу
+                    var vectorLayer = new ol.layer.Vector({
+                        source: vectorSource,
+                        style: new ol.style.Style({
+                            image: new ol.style.Icon({
+                                anchor: [0.5, 1],
+                                src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+                            })
+                        })
+                    });
+
+                    map.addLayer(vectorLayer);
+
+                    // Автозум для отображения всех точек
+                    var extent = vectorSource.getExtent();
+                    map.getView().fit(extent, { padding: [50, 50, 50, 50] });
+                })
+                .catch(error => console.error('Error fetching station data:', error));
         });
-
-        markers.addTo(map); // Добавление всех маркеров на карту
-        map.fitBounds(markers.getBounds()); // Автоматическое изменение зума и центра карты для показа всех маркеров
-
-        map.attributionControl.setPrefix(''); // Убирает "Powered by Leaflet"
-        map.attributionControl.addAttribution('Станции на карте Leaflet');
-
     </script>
-
-
-
 </body>
 
 </html>
-

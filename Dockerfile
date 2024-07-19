@@ -1,15 +1,22 @@
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt /requirements.txt
 
-RUN apk add --update --no-cache postgresql-client jpeg-dev
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    libc-dev \
+    libpq-dev \
+    libproj-dev \
+    proj-data \
+    proj-bin \
+    libgeos-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
+RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
-RUN apk del .tmp-build-deps
-RUN apk add --update --no-cache gettext
 
 RUN mkdir /app
 COPY ./app /app

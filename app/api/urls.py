@@ -11,6 +11,6 @@ urlpatterns = [
     path('', home_view, name='home'),
 
     path('stations/', stations_json_view, name='stations'),
-    path('station_coordinates/', station_coordinates_json_view, name='station_coordinates'),
+    path('api/station-coordinates/', station_coordinates_json_view, name='station_coordinates_json'),
     path('files/', files_json_view, name='files'),
 ]
