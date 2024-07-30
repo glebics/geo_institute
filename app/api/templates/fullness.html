@@ -1,74 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "header.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Fullness of Data</title>
-    <style>
-        @font-face {
-            font-family: 'Jura';
-            src: url('/static/fonts/Jura.ttf') format('truetype');
-        }
-
-        body,
-        h1,
-        p {
-            font-family: 'Jura', sans-serif;
-        }
-
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .back-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back-button a {
-            width: 50%;
-            font-family: Jura;
-            height: 59px;
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #000000;
-            border-radius: 14px;
-            font-size: 27px;
-            text-transform: lowercase;
-            cursor: pointer;
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-            line-height: 59px;
-        }
-
-        .back-button a:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="content">
-        <h1>За период с {{ start_period }} по {{ end_period }} найдено</h1>
+{% block content %}
+<div class="content">
+    <h2>За период с {{ start_period }} по {{ end_period }} найдено</h2>
+    <div class="table-container">
         <table>
             <thead>
                 <tr>
@@ -79,16 +14,80 @@
             <tbody>
                 {% for date, fullness in data %}
                 <tr>
-                    <td>{{ date }}</td>
-                    <td>{{ fullness }}</td>
+                    <td class="underlined">{{ date }}</td>
+                    <td class="underlined">{{ fullness }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <div class="back-button">
-            <a href="{% url 'home' %}">назад</a>
-        </div>
     </div>
-</body>
+    <div class="back-button">
+        <a href="{% url 'home' %}">назад</a>
+    </div>
+</div>
 
-</html>
+<style>
+    .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 27px;
+        font-weight: normal; /* Убираем жирность */
+    }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    table {
+        width: auto; /* Автоматическая ширина таблицы */
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th, td {
+        border: none;
+        padding: 8px 20px; /* Уменьшаем отступы для сближения столбцов */
+        text-align: center;
+        font-weight: normal; /* Убираем жирность */
+    }
+
+    th {
+        background-color: transparent;
+        font-size: 27px; /* Увеличиваем шрифт для заголовков */
+    }
+
+    td.underlined {
+        text-decoration: underline; /* Подчеркиваем текст в ячейках */
+    }
+
+    .back-button {
+        width: 270px; /* Устанавливаем фиксированную ширину кнопки */
+        font-family: Jura;
+        height: 59px;
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000000;
+        border-radius: 14px;
+        font-size: 27px;
+        text-transform: lowercase;
+        cursor: pointer;
+        margin: 40px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Центрируем текст по горизонтали и вертикали */
+    }
+
+    .back-button a {
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        text-align: center; /* Центрируем текст внутри ссылки */
+    }
+</style>
+{% endblock %}

@@ -193,6 +193,7 @@
     </style>
 </head>
 
+
 <body>
     <div class="top-info">
         <p>Федеральный исследовательский центр <br>“Единая геофизическая служба Российской академии наук” <br>Сектор
@@ -209,4 +210,9 @@
         </ul>
     </nav>
     <hr>
+    <!-- Определяем блок content -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
