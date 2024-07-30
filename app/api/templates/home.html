@@ -202,25 +202,26 @@
         <div id="map" style="width: 519px; height: 321px;"></div>
         <div class="stations">
             <ul>
-                <li><a href="{% url 'stations' %}">artu</a></li>
-                <li><a href="{% url 'station_coordinates' %}">petp</a></li>
-                <li><a href="{% url 'files' %}">yakt</a></li>
-                <li><a href="#">bili</a></li>
-                <li><a href="#">petr</a></li>
-                <li><a href="#">yakz</a></li>
-                <li><a href="#">irkm</a></li>
-                <li><a href="#">pets</a></li>
-                <li><a href="#">yssk</a></li>
-                <li><a href="#">magl</a></li>
-                <li><a href="#">tixg</a></li>
-                <li><a href="#">mobj</a></li>
-                <li><a href="#">tixi</a></li>
-                <li><a href="#">mobn</a></li>
-                <li><a href="#">tixj</a></li>
-                <li><a href="#">nril</a></li>
-                <li><a href="#">yaka</a></li>
+                <li><a href="{% url 'fullness' 'artu' %}">artu</a></li>
+                <li><a href="{% url 'fullness' 'petp' %}">petp</a></li>
+                <li><a href="{% url 'fullness' 'yakt' %}">yakt</a></li>
+                <li><a href="{% url 'fullness' 'bili' %}">bili</a></li>
+                <li><a href="{% url 'fullness' 'petr' %}">petr</a></li>
+                <li><a href="{% url 'fullness' 'yakz' %}">yakz</a></li>
+                <li><a href="{% url 'fullness' 'irkm' %}">irkm</a></li>
+                <li><a href="{% url 'fullness' 'pets' %}">pets</a></li>
+                <li><a href="{% url 'fullness' 'yssk' %}">yssk</a></li>
+                <li><a href="{% url 'fullness' 'magl' %}">magl</a></li>
+                <li><a href="{% url 'fullness' 'tixg' %}">tixg</a></li>
+                <li><a href="{% url 'fullness' 'mobj' %}">mobj</a></li>
+                <li><a href="{% url 'fullness' 'tixi' %}">tixi</a></li>
+                <li><a href="{% url 'fullness' 'mobn' %}">mobn</a></li>
+                <li><a href="{% url 'fullness' 'tixj' %}">tixj</a></li>
+                <li><a href="{% url 'fullness' 'nril' %}">nril</a></li>
+                <li><a href="{% url 'fullness' 'yaka' %}">yaka</a></li>
             </ul>
         </div>
+        
     </div>
 
     <script>
@@ -262,7 +263,7 @@
         map.fitBounds(markers.getBounds()); // Автоматическое изменение зума и центра карты для показа всех маркеров
 
         map.attributionControl.setPrefix(''); // Убирает "Powered by Leaflet"
-        map.attributionControl.addAttribution('Станции на карте Leaflet');
+        map.attributionControl.addAttribution('Leaflet');
 
     </script>
 

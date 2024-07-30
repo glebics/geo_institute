@@ -58,6 +58,31 @@ def files_json_view(request):
 #     data = get_data_from_secondary_db()
 #     return JsonResponse({'data': data})
 
+def fullness_view(request, station_name):
+    # Пример данных
+    start_period = "001 2000"
+    end_period = "010 2000"
+    data = [
+        ("2000 001", "100%"),
+        ("2000 002", "100%"),
+        ("2000 003", "100%"),
+        ("2000 004", "100%"),
+        ("2000 005", "100%"),
+        ("2000 006", "100%"),
+        ("2000 007", "100%"),
+        ("2000 008", "100%"),
+        ("2000 009", "100%"),
+        ("2000 010", "100%"),
+    ]
+
+    context = {
+        'start_period': start_period,
+        'end_period': end_period,
+        'station_name': station_name,
+        'data': data,
+    }
+    return render(request, 'fullness.html', context)
+
 
 def signup_view(request):
     if request.method == 'POST':
