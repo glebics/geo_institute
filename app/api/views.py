@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render
@@ -82,6 +85,38 @@ def fullness_view(request, station_name):
         'data': data,
     }
     return render(request, 'fullness.html', context)
+
+
+def archive_access_view(request):
+    stations = [
+        "artu", "yssk", "mago", "mobn", "lovi", "pet", "yaka",
+        "petp", "yakz", "tixg", "tixi", "magi", "petp", "yakt", "yakt",
+        "irkm", "mobi", "nril", "nri", "petr", "yakz", "bili", "pets",
+        "tixi", "yaka", "nril", "pets", "yssk", "petr", "bilb", "irk",
+        "kslv", "nurg", "svet"
+    ]
+    years = list(range(1997, 2024))  # Пример диапазона годов
+
+    context = {
+        'stations': stations,
+        'years': years
+    }
+    return render(request, 'archive_access.html', context)
+
+
+def process_archive_request(request):
+    if request.method == 'POST':
+        selected_stations = request.POST.getlist('stations')
+        data_type = request.POST.get('data_type')
+        start_year = request.POST.get('start_year')
+        end_year = request.POST.get('end_year')
+        day_of_year = request.POST.get('day_of_year')
+        request_type = request.POST.get('request_type')
+
+        # Здесь можно обработать данные формы, например, сохранить их в базе данных или выполнить нужные действия
+        return HttpResponse(f"Stations: {selected_stations}, Data type: {data_type}, Period: {start_year}-{end_year}, Day of year: {day_of_year}, Request type: {request_type}")
+
+    return redirect('archive_access')
 
 
 def signup_view(request):

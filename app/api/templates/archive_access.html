@@ -1,0 +1,194 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>Доступ к архиву данных GPS-наблюдений</h2>
+
+    <form method="post" action="{% url 'process_archive_request' %}">
+        {% csrf_token %}
+
+        <h3>Список станций</h3>
+        <div class="stations-grid">
+            {% for station in stations %}
+            <div class="station">
+                <input type="checkbox" id="{{ station }}" name="stations" value="{{ station }}">
+                <label for="{{ station }}">{{ station }}</label>
+            </div>
+            {% endfor %}
+            <div class="station">
+                <input type="checkbox" id="select_all" name="select_all" onclick="toggleAll(this)">
+                <label for="select_all">выбрать все</label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-section">
+                <h3>Тип данных</h3>
+                <div class="data-type">
+                    <input type="radio" id="daily" name="data_type" value="daily" checked>
+                    <label for="daily">суточные файлы</label><br>
+                    <input type="radio" id="hourly" name="data_type" value="hourly">
+                    <label for="hourly">часовые файлы</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Временной запрос</h3>
+                <div class="time-request">
+                    <label for="start_year">год</label>
+                    <select id="start_year" name="start_year">
+                        {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="end_year">-</label>
+                    <select id="end_year" name="end_year">
+                        {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                        {% endfor %}
+                    </select><br>
+                    <label for="day_of_year">день года</label>
+                    <input type="number" id="day_of_year" name="day_of_year" min="1" max="366">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Тип запроса</h3>
+                <div class="request-type">
+                    <input type="radio" id="save_data" name="request_type" value="save_data" checked>
+                    <label for="save_data">запрос на сохранение данных</label><br>
+                    <input type="radio" id="view_stats" name="request_type" value="view_stats">
+                    <label for="view_stats">запрос на просмотр статистики</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit">просмотреть</button>
+            <button type="reset">ОЧИСТИТЬ</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h2, h3 {
+        text-align: center;
+    }
+
+    .stations-grid {
+        display: grid;
+        grid-template-columns: repeat(7, auto);
+        gap: 10px;
+        justify-items: start;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .station {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .station input[type="checkbox"] {
+        margin-right: 5px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 1px solid #000;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .station input[type="checkbox"]:checked {
+        background-color: #000;
+    }
+
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+
+    .form-section {
+        flex: 1;
+        padding: 0 10px;
+        text-align: left; /* Выравниваем текст слева */
+    }
+
+    .data-type input, .request-type input {
+        display: inline-block;
+        margin-right: 10px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 1px solid #000;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .data-type input:checked, .request-type input:checked {
+        background-color: #000;
+    }
+
+    .data-type label, .request-type label {
+        margin-right: 10px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center; /* Центрируем кнопки */
+        gap: 50px; /* Отступ между кнопками */
+    }
+
+    button {
+        width: 270px; /* Уменьшенная ширина кнопки */
+        font-family: Jura;
+        height: 59px;
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000000;
+        border-radius: 14px;
+        font-size: 27px;
+        text-transform: lowercase;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button[type="reset"] {
+        background-color: #fff;
+        color: #000;
+    }
+
+    button[type="submit"] {
+        background-color: #fff;
+        color: #000;
+    }
+</style>
+
+<script>
+    function toggleAll(source) {
+        checkboxes = document.getElementsByName('stations');
+        for(var i=0, n=checkboxes.length; i<n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+{% endblock %}
